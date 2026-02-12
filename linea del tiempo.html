@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historia de Android</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Space Grotesk', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .timeline-item {
+      animation: slide-in 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .float-animation { animation: float 3s ease-in-out infinite; }
+    
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3DDC84 0%, #00BCD4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: #1a1a2e; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #3DDC84; border-radius: 3px; }
+    
+    .android-bot {
+      filter: drop-shadow(0 0 20px rgba(61, 220, 132, 0.3));
+    }
+  </style>
+</head>
+<body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto scrollbar-thin" style="background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-opacity-80" style="background: rgba(15, 15, 26, 0.9);">
+      <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <!-- Android Logo SVG -->
+            <div class="float-animation android-bot">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0012 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.983 5.983 0 006 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z" fill="#3DDC84"/>
+              </svg>
+            </div>
+            <div>
+              <h1 id="main-title" class="text-2xl font-bold gradient-text">Historia de Android</h1>
+              <p id="subtitle" class="text-sm text-gray-400">Evolución del sistema operativo móvil</p>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full" style="background: rgba(61, 220, 132, 0.1); border: 1px solid rgba(61, 220, 132, 0.3);">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+            <span class="text-sm text-green-400 mono">2008 - 2024</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-8">
+      
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="p-4 rounded-xl text-center card-hover" style="background: rgba(61, 220, 132, 0.1); border: 1px solid rgba(61, 220, 132, 0.2);">
+          <div class="text-3xl font-bold text-green-400">16+</div>
+          <div class="text-xs text-gray-400 mt-1">Años de evolución</div>
+        </div>
+        <div class="p-4 rounded-xl text-center card-hover" style="background: rgba(0, 188, 212, 0.1); border: 1px solid rgba(0, 188, 212, 0.2);">
+          <div class="text-3xl font-bold text-cyan-400">15</div>
+          <div class="text-xs text-gray-400 mt-1">Versiones principales</div>
+        </div>
+        <div class="p-4 rounded-xl text-center card-hover" style="background: rgba(156, 39, 176, 0.1); border: 1px solid rgba(156, 39, 176, 0.2);">
+          <div class="text-3xl font-bold text-purple-400">3B+</div>
+          <div class="text-xs text-gray-400 mt-1">Dispositivos activos</div>
+        </div>
+        <div class="p-4 rounded-xl text-center card-hover" style="background: rgba(255, 152, 0, 0.1); border: 1px solid rgba(255, 152, 0, 0.2);">
+          <div class="text-3xl font-bold text-orange-400">70%</div>
+          <div class="text-xs text-gray-400 mt-1">Cuota de mercado</div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        <!-- Timeline Line -->
+        <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 rounded-full" style="background: linear-gradient(to bottom, #3DDC84, #00BCD4, #9C27B0, #FF9800);"></div>
+        
+        <!-- Timeline Items -->
+        <div id="timeline-container" class="space-y-8">
+        </div>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="flex flex-wrap justify-center gap-3 mt-12 mb-8">
+        <button onclick="filterTimeline('all')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all" style="background: rgba(61, 220, 132, 0.2); color: #3DDC84; border: 1px solid rgba(61, 220, 132, 0.4);">
+          Todas
+        </button>
+        <button onclick="filterTimeline('early')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all" style="background: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">
+          2008-2013
+        </button>
+        <button onclick="filterTimeline('mid')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all" style="background: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">
+          2014-2019
+        </button>
+        <button onclick="filterTimeline('recent')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all" style="background: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">
+          2020-2024
+        </button>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+   
+  </div>
+
+  <script>
+    const androidVersions = [
+      { version: "1.0", name: "Apple Pie", year: 2008, era: "early", color: "#A4C639", icon: "🍎", features: ["Android Market", "Navegador web", "Soporte para cámara", "Gmail integrado"] },
+      { version: "1.5", name: "Cupcake", year: 2009, era: "early", color: "#F8BBD9", icon: "🧁", features: ["Teclado virtual", "Widgets", "Grabación de video", "Animaciones de transición"] },
+      { version: "1.6", name: "Donut", year: 2009, era: "early", color: "#D7A86E", icon: "🍩", features: ["Búsqueda por voz", "Soporte CDMA", "Múltiples resoluciones", "Indicador de batería"] },
+      { version: "2.0", name: "Eclair", year: 2009, era: "early", color: "#8B4513", icon: "🍫", features: ["Navegación Google Maps", "Múltiples cuentas", "Bluetooth 2.1", "Fondos animados"] },
+      { version: "2.2", name: "Froyo", year: 2010, era: "early", color: "#FFF8DC", icon: "🍦", features: ["Hotspot WiFi", "Flash en navegador", "Motor JIT", "Push notifications"] },
+      { version: "2.3", name: "Gingerbread", year: 2010, era: "early", color: "#8B4513", icon: "🍪", features: ["Soporte NFC", "Múltiples cámaras", "Mejor gestión energía", "Teclado mejorado"] },
+      { version: "3.0", name: "Honeycomb", year: 2011, era: "early", color: "#FFD700", icon: "🍯", features: ["Diseño para tablets", "Barra de sistema", "Multitarea mejorada", "Aceleración hardware"] },
+      { version: "4.0", name: "Ice Cream Sandwich", year: 2011, era: "early", color: "#87CEEB", icon: "🍨", features: ["Face Unlock", "Android Beam", "Nuevo diseño Holo", "Captura de pantalla"] },
+      { version: "4.1", name: "Jelly Bean", year: 2012, era: "early", color: "#FF69B4", icon: "🫘", features: ["Google Now", "Project Butter", "Notificaciones expandibles", "Widgets redimensionables"] },
+      { version: "4.4", name: "KitKat", year: 2013, era: "early", color: "#8B0000", icon: "🍫", features: ["OK Google", "Modo inmersivo", "Impresión inalámbrica", "Optimización memoria"] },
+      { version: "5.0", name: "Lollipop", year: 2014, era: "mid", color: "#FF6B6B", icon: "🍭", features: ["Material Design", "ART runtime", "Notificaciones en lock", "Múltiples usuarios"] },
+      { version: "6.0", name: "Marshmallow", year: 2015, era: "mid", color: "#F0F0F0", icon: "🍡", features: ["Permisos en ejecución", "Google Now on Tap", "USB Type-C", "Huella dactilar nativa"] },
+      { version: "7.0", name: "Nougat", year: 2016, era: "mid", color: "#DEB887", icon: "🍬", features: ["Pantalla dividida", "Respuestas rápidas", "Vulkan API", "Modo ahorro datos"] },
+      { version: "8.0", name: "Oreo", year: 2017, era: "mid", color: "#2F2F2F", icon: "🍪", features: ["Picture-in-Picture", "Puntos notificación", "Autofill framework", "Límites en segundo plano"] },
+      { version: "9.0", name: "Pie", year: 2018, era: "mid", color: "#FFB347", icon: "🥧", features: ["Navegación por gestos", "Bienestar Digital", "Notch support", "App Actions"] },
+      { version: "10", name: "Android 10", year: 2019, era: "mid", color: "#3DDC84", icon: "🔟", features: ["Modo oscuro nativo", "Controles de privacidad", "Pantallas plegables", "5G support"] },
+      { version: "11", name: "Android 11", year: 2020, era: "recent", color: "#00BCD4", icon: "⏸️", features: ["Burbujas de chat", "Grabación pantalla", "Permisos únicos", "Controles de dispositivos"] },
+      { version: "12", name: "Android 12", year: 2021, era: "recent", color: "#9C27B0", icon: "🎨", features: ["Material You", "Panel privacidad", "Widgets rediseñados", "Scrolling screenshots"] },
+      { version: "13", name: "Android 13", year: 2022, era: "recent", color: "#4CAF50", icon: "🎵", features: ["Themed icons", "Permisos de medios", "Portapapeles automático", "Bluetooth LE Audio"] },
+      { version: "14", name: "Android 14", year: 2023, era: "recent", color: "#FF5722", icon: "🔒", features: ["Passkeys", "Salud conectada", "Bloqueo ladrón", "Ultra HDR"] },
+      { version: "15", name: "Android 15", year: 2024, era: "recent", color: "#E91E63", icon: "🚀", features: ["Private Space", "Audio compartido", "Satellite messaging", "Detección de estafas"] }
+    ];
+
+    let currentFilter = 'all';
+
+    function createTimelineItem(item, index) {
+      const isLeft = index % 2 === 0;
+      const delay = index * 0.1;
+      
+      return `
+        <div class="timeline-item relative flex items-center ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}" 
+             style="animation-delay: ${delay}s;" data-era="${item.era}">
+          
+          <!-- Content Card -->
+          <div class="ml-16 md:ml-0 md:w-5/12 ${isLeft ? 'md:pr-12 md:text-right' : 'md:pl-12'}">
+            <div class="card-hover p-5 rounded-2xl cursor-pointer" 
+                 style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); 
+                        border: 1px solid rgba(255,255,255,0.1);
+                        backdrop-filter: blur(10px);"
+                 onclick="toggleFeatures(this)">
+              
+              <div class="flex items-center gap-3 ${isLeft ? 'md:flex-row-reverse' : ''}">
+                <span class="text-4xl">${item.icon}</span>
+                <div class="${isLeft ? 'md:text-right' : ''}">
+                  <div class="mono text-xs px-2 py-1 rounded-full inline-block mb-1" 
+                       style="background: ${item.color}20; color: ${item.color};">
+                    v${item.version}
+                  </div>
+                  <h3 class="text-lg font-bold text-white">${item.name}</h3>
+                  <p class="text-sm text-gray-400">${item.year}</p>
+                </div>
+              </div>
+              
+              <div class="features-list mt-4 hidden">
+                <div class="h-px w-full my-3" style="background: linear-gradient(90deg, transparent, ${item.color}, transparent);"></div>
+                <ul class="space-y-2 ${isLeft ? 'md:text-right' : ''}">
+                  ${item.features.map(f => `
+                    <li class="flex items-center gap-2 text-sm text-gray-300 ${isLeft ? 'md:flex-row-reverse' : ''}">
+                      <span class="w-1.5 h-1.5 rounded-full" style="background: ${item.color};"></span>
+                      ${f}
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+              
+              <div class="mt-3 text-xs text-gray-500 flex items-center gap-1 ${isLeft ? 'md:justify-end' : ''}">
+                <span>Click para ver más</span>
+                <svg class="w-3 h-3 transform transition-transform expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Timeline Dot -->
+          <div class="absolute left-6 md:left-1/2 transform -translate-x-1/2 z-10">
+            <div class="timeline-dot relative w-5 h-5 rounded-full border-4 transition-all duration-300" 
+                 style="background: ${item.color}; border-color: #0f0f1a; box-shadow: 0 0 20px ${item.color}40;">
+            </div>
+          </div>
+          
+          <!-- Year Badge (opposite side) -->
+          <div class="hidden md:block md:w-5/12 ${isLeft ? 'md:pl-12' : 'md:pr-12 md:text-right'}">
+            <span class="mono text-2xl font-bold" style="color: ${item.color}40;">${item.year}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTimeline(filter = 'all') {
+      const container = document.getElementById('timeline-container');
+      const filtered = filter === 'all' 
+        ? androidVersions 
+        : androidVersions.filter(v => v.era === filter);
+      
+      container.innerHTML = filtered.map((item, index) => createTimelineItem(item, index)).join('');
+    }
+
+    function toggleFeatures(card) {
+      const features = card.querySelector('.features-list');
+      const icon = card.querySelector('.expand-icon');
+      
+      features.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+
+    function filterTimeline(filter) {
+      currentFilter = filter;
+      renderTimeline(filter);
+      
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        const isActive = btn.textContent.toLowerCase().includes(
+          filter === 'all' ? 'todas' : 
+          filter === 'early' ? '2008' : 
+          filter === 'mid' ? '2014' : '2020'
+        );
+        
+        if (isActive) {
+          btn.style.background = 'rgba(61, 220, 132, 0.2)';
+          btn.style.color = '#3DDC84';
+          btn.style.borderColor = 'rgba(61, 220, 132, 0.4)';
+        } else {
+          btn.style.background = 'rgba(255, 255, 255, 0.05)';
+          btn.style.color = '#9ca3af';
+          btn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        }
+      });
+    }
+
+    // Default config
+    const defaultConfig = {
+      main_title: 'Historia de Android',
+      subtitle: 'Evolución del sistema operativo móvil',
+      background_color: '#0f0f1a',
+      surface_color: '#1a1a2e',
+      text_color: '#ffffff',
+      primary_action_color: '#3DDC84',
+      secondary_action_color: '#00BCD4',
+      font_family: 'Space Grotesk',
+      font_size: 16
+    };
+
+    // Initialize SDK
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const title = document.getElementById('main-title');
+        const subtitle = document.getElementById('subtitle');
+        const wrapper = document.getElementById('app-wrapper');
+        
+        title.textContent = config.main_title || defaultConfig.main_title;
+        subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+        
+        const bgColor = config.background_color || defaultConfig.background_color;
+        const surfaceColor = config.surface_color || defaultConfig.surface_color;
+        wrapper.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${surfaceColor} 50%, ${bgColor} 100%)`;
+        
+        const textColor = config.text_color || defaultConfig.text_color;
+        document.querySelectorAll('h3').forEach(el => el.style.color = textColor);
+        
+        const fontFamily = config.font_family || defaultConfig.font_family;
+        document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+        
+        const fontSize = config.font_size || defaultConfig.font_size;
+        document.body.style.fontSize = `${fontSize}px`;
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => window.elementSdk.setConfig({ background_color: value })
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => window.elementSdk.setConfig({ surface_color: value })
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => window.elementSdk.setConfig({ text_color: value })
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => window.elementSdk.setConfig({ font_family: value })
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => window.elementSdk.setConfig({ font_size: value })
+        }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['main_title', config.main_title || defaultConfig.main_title],
+        ['subtitle', config.subtitle || defaultConfig.subtitle]
+      ])
+    });
+
+    // Initial render
+    renderTimeline();
+  </script>
+</body>
+</html>
