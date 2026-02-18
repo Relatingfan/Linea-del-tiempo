@@ -150,28 +150,28 @@
 
   <script>
     const androidVersions = [
-      { version: "1.0", name: "Apple Pie", year: 2008, era: "early", color: "#A4C639", icon: "🍎", features: ["Android Market", "Navegador web", "Soporte para cámara", "Gmail integrado"] },
-      { version: "1.5", name: "Cupcake", year: 2009, era: "early", color: "#F8BBD9", icon: "🧁", features: ["Teclado virtual", "Widgets", "Grabación de video", "Animaciones de transición"] },
-      { version: "1.6", name: "Donut", year: 2009, era: "early", color: "#D7A86E", icon: "🍩", features: ["Búsqueda por voz", "Soporte CDMA", "Múltiples resoluciones", "Indicador de batería"] },
-      { version: "2.0", name: "Eclair", year: 2009, era: "early", color: "#8B4513", icon: "🍫", features: ["Navegación Google Maps", "Múltiples cuentas", "Bluetooth 2.1", "Fondos animados"] },
-      { version: "2.2", name: "Froyo", year: 2010, era: "early", color: "#FFF8DC", icon: "🍦", features: ["Hotspot WiFi", "Flash en navegador", "Motor JIT", "Push notifications"] },
-      { version: "2.3", name: "Gingerbread", year: 2010, era: "early", color: "#8B4513", icon: "🍪", features: ["Soporte NFC", "Múltiples cámaras", "Mejor gestión energía", "Teclado mejorado"] },
-      { version: "3.0", name: "Honeycomb", year: 2011, era: "early", color: "#FFD700", icon: "🍯", features: ["Diseño para tablets", "Barra de sistema", "Multitarea mejorada", "Aceleración hardware"] },
-      { version: "4.0", name: "Ice Cream Sandwich", year: 2011, era: "early", color: "#87CEEB", icon: "🍨", features: ["Face Unlock", "Android Beam", "Nuevo diseño Holo", "Captura de pantalla"] },
-      { version: "4.1", name: "Jelly Bean", year: 2012, era: "early", color: "#FF69B4", icon: "🫘", features: ["Google Now", "Project Butter", "Notificaciones expandibles", "Widgets redimensionables"] },
-      { version: "4.4", name: "KitKat", year: 2013, era: "early", color: "#8B0000", icon: "🍫", features: ["OK Google", "Modo inmersivo", "Impresión inalámbrica", "Optimización memoria"] },
-      { version: "5.0", name: "Lollipop", year: 2014, era: "mid", color: "#FF6B6B", icon: "🍭", features: ["Material Design", "ART runtime", "Notificaciones en lock", "Múltiples usuarios"] },
-      { version: "6.0", name: "Marshmallow", year: 2015, era: "mid", color: "#F0F0F0", icon: "🍡", features: ["Permisos en ejecución", "Google Now on Tap", "USB Type-C", "Huella dactilar nativa"] },
-      { version: "7.0", name: "Nougat", year: 2016, era: "mid", color: "#DEB887", icon: "🍬", features: ["Pantalla dividida", "Respuestas rápidas", "Vulkan API", "Modo ahorro datos"] },
-      { version: "8.0", name: "Oreo", year: 2017, era: "mid", color: "#2F2F2F", icon: "🍪", features: ["Picture-in-Picture", "Puntos notificación", "Autofill framework", "Límites en segundo plano"] },
-      { version: "9.0", name: "Pie", year: 2018, era: "mid", color: "#FFB347", icon: "🥧", features: ["Navegación por gestos", "Bienestar Digital", "Notch support", "App Actions"] },
-      { version: "10", name: "Android 10", year: 2019, era: "mid", color: "#3DDC84", icon: "🔟", features: ["Modo oscuro nativo", "Controles de privacidad", "Pantallas plegables", "5G support"] },
-      { version: "11", name: "Android 11", year: 2020, era: "recent", color: "#00BCD4", icon: "⏸️", features: ["Burbujas de chat", "Grabación pantalla", "Permisos únicos", "Controles de dispositivos"] },
-      { version: "12", name: "Android 12", year: 2021, era: "recent", color: "#9C27B0", icon: "🎨", features: ["Material You", "Panel privacidad", "Widgets rediseñados", "Scrolling screenshots"] },
-      { version: "13", name: "Android 13", year: 2022, era: "recent", color: "#4CAF50", icon: "🎵", features: ["Themed icons", "Permisos de medios", "Portapapeles automático", "Bluetooth LE Audio"] },
-      { version: "14", name: "Android 14", year: 2023, era: "recent", color: "#FF5722", icon: "🔒", features: ["Passkeys", "Salud conectada", "Bloqueo ladrón", "Ultra HDR"] },
-      { version: "15", name: "Android 15", year: 2024, era: "recent", color: "#E91E63", icon: "🚀", features: ["Private Space", "Audio compartido", "Satellite messaging", "Detección de estafas"] }
-    ];
+  { version: "1.0", name: "Apple Pie", year: 2008, era: "early", color: "#A4C639", img: "", features: ["Android Market", "Navegador web", "Soporte para cámara", "Gmail integrado"] },
+  { version: "1.5", name: "Cupcake", year: 2009, era: "early", color: "#F8BBD9", img: "", features: ["Teclado virtual", "Widgets", "Grabación de video", "Animaciones de transición"] },
+  { version: "1.6", name: "Donut", year: 2009, era: "early", color: "#D7A86E", img: "", features: ["Búsqueda por voz", "Soporte CDMA", "Múltiples resoluciones", "Indicador de batería"] },
+  { version: "2.0", name: "Eclair", year: 2009, era: "early", color: "#8B4513", img: "", features: ["Navegación Google Maps", "Múltiples cuentas", "Bluetooth 2.1", "Fondos animados"] },
+  { version: "2.2", name: "Froyo", year: 2010, era: "early", color: "#FFF8DC", img: "", features: ["Hotspot WiFi", "Flash en navegador", "Motor JIT", "Push notifications"] },
+  { version: "2.3", name: "Gingerbread", year: 2010, era: "early", color: "#8B4513", img: "", features: ["Soporte NFC", "Múltiples cámaras", "Mejor gestión energía", "Teclado mejorado"] },
+  { version: "3.0", name: "Honeycomb", year: 2011, era: "early", color: "#FFD700", img: "", features: ["Diseño para tablets", "Barra de sistema", "Multitarea mejorada", "Aceleración hardware"] },
+  { version: "4.0", name: "Ice Cream Sandwich", year: 2011, era: "early", color: "#87CEEB", img: "", features: ["Face Unlock", "Android Beam", "Nuevo diseño Holo", "Captura de pantalla"] },
+  { version: "4.1", name: "Jelly Bean", year: 2012, era: "early", color: "#FF69B4", img: "", features: ["Google Now", "Project Butter", "Notificaciones expandibles", "Widgets redimensionables"] },
+  { version: "4.4", name: "KitKat", year: 2013, era: "early", color: "#8B0000", img: "", features: ["OK Google", "Modo inmersivo", "Impresión inalámbrica", "Optimización memoria"] },
+  { version: "5.0", name: "Lollipop", year: 2014, era: "mid", color: "#FF6B6B", img: "", features: ["Material Design", "ART runtime", "Notificaciones en lock", "Múltiples usuarios"] },
+  { version: "6.0", name: "Marshmallow", year: 2015, era: "mid", color: "#F0F0F0", img: "", features: ["Permisos en ejecución", "Google Now on Tap", "USB Type-C", "Huella dactilar nativa"] },
+  { version: "7.0", name: "Nougat", year: 2016, era: "mid", color: "#DEB887", img: "", features: ["Pantalla dividida", "Respuestas rápidas", "Vulkan API", "Modo ahorro datos"] },
+  { version: "8.0", name: "Oreo", year: 2017, era: "mid", color: "#2F2F2F", img: "", features: ["Picture-in-Picture", "Puntos notificación", "Autofill framework", "Límites en segundo plano"] },
+  { version: "9.0", name: "Pie", year: 2018, era: "mid", color: "#FFB347", img: "", features: ["Navegación por gestos", "Bienestar Digital", "Notch support", "App Actions"] },
+  { version: "10", name: "Android 10", year: 2019, era: "mid", color: "#3DDC84", img: "", features: ["Modo oscuro nativo", "Controles de privacidad", "Pantallas plegables", "5G support"] },
+  { version: "11", name: "Android 11", year: 2020, era: "recent", color: "#00BCD4", img: "", features: ["Burbujas de chat", "Grabación pantalla", "Permisos únicos", "Controles de dispositivos"] },
+  { version: "12", name: "Android 12", year: 2021, era: "recent", color: "#9C27B0", img: "", features: ["Material You", "Panel privacidad", "Widgets rediseñados", "Scrolling screenshots"] },
+  { version: "13", name: "Android 13", year: 2022, era: "recent", color: "#4CAF50", img: "", features: ["Themed icons", "Permisos de medios", "Portapapeles automático", "Bluetooth LE Audio"] },
+  { version: "14", name: "Android 14", year: 2023, era: "recent", color: "#FF5722", img: "", features: ["Passkeys", "Salud conectada", "Bloqueo ladrón", "Ultra HDR"] },
+  { version: "15", name: "Android 15", year: 2024, era: "recent", color: "#E91E63", img: "", features: ["Private Space", "Audio compartido", "Satellite messaging", "Detección de estafas"] }
+];
 
     let currentFilter = 'all';
 
@@ -192,7 +192,7 @@
                  onclick="toggleFeatures(this)">
               
               <div class="flex items-center gap-3 ${isLeft ? 'md:flex-row-reverse' : ''}">
-                <span class="text-4xl">${item.icon}</span>
+                <img src= ${item.img} alt="imagen">
                 <div class="${isLeft ? 'md:text-right' : ''}">
                   <div class="mono text-xs px-2 py-1 rounded-full inline-block mb-1" 
                        style="background: ${item.color}20; color: ${item.color};">
