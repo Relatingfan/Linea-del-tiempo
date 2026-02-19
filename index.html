@@ -3,203 +3,1434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evolución de Sistemas Operativos Móviles</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+    <title>Línea del Tiempo: Sistemas Operativos Móviles</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #34495e;
-            --accent: #3498db;
-            --bg: #f4f7f6;
-            --text: #333;
-            --white: #ffffff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: #f4f1ea;
+            color: #1c1c1c;
             line-height: 1.6;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        header {
-            text-align: center;
-            padding: 40px 0;
-            background: var(--primary);
-            color: var(--white);
-            margin-bottom: 30px;
-            border-radius: 8px;
-        }
-
-        /* Sistema de Pestañas */
+        /* Barra superior con pestañas */
         .tabs {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 0;
+            border-bottom: 1px solid #d8d5cf;
+            margin-bottom: 60px;
+            margin-left: -20px;
+            padding-left: 20px;
         }
 
-        .tab-btn {
-            padding: 12px 30px;
+        .tab {
+            padding: 16px 32px;
+            background: none;
             border: none;
-            background: var(--secondary);
-            color: var(--white);
+            border-bottom: 2px solid transparent;
             cursor: pointer;
-            font-size: 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-        }
-
-        /* Línea de Tiempo */
-        .timeline {
-            display: none;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: #6e6e6e;
+            transition: color 200ms ease, border-color 200ms ease;
             position: relative;
+            top: 1px;
         }
 
-        .timeline.active {
+        .tab:hover {
+            color: #1c1c1c;
+        }
+
+        .tab.active {
+            color: #1c1c1c;
+            border-bottom-color: #1c1c1c;
+        }
+
+        /* Contenedor de contenido */
+        .content {
+            display: none;
+        }
+
+        .content.active {
             display: block;
         }
 
-        .card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-left: 5px solid var(--accent);
+        /* Línea del tiempo */
+        .timeline {
             position: relative;
+            padding-left: 40px;
         }
 
-        .card-header {
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #d8d5cf;
+        }
+
+        /* Tarjeta de versión */
+        .version-card {
+            position: relative;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 300ms ease, transform 300ms ease;
+        }
+
+        .version-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .version-card::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #1c1c1c;
+            border: 2px solid #f4f1ea;
+        }
+
+        .version-header {
+            cursor: pointer;
+            padding: 20px;
+            border: 1px solid #d8d5cf;
+            background-color: #ffffff;
+            transition: border-color 200ms ease;
+        }
+
+        .version-header:hover {
+            border-color: #1c1c1c;
+        }
+
+        .version-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
         }
 
-        .card-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin: 0;
+        .version-year {
+            font-size: 14px;
+            color: #6e6e6e;
+            font-weight: 400;
         }
 
-        .card-date {
-            font-weight: bold;
-            color: var(--accent);
+        .expand-icon {
+            font-size: 18px;
+            color: #6e6e6e;
+            transition: transform 200ms ease;
         }
 
-        .card-body {
-            display: grid;
-            grid-template-columns: 1fr 200px;
-            gap: 20px;
+        .version-card.expanded .expand-icon {
+            transform: rotate(180deg);
         }
 
-        .image-placeholder {
-            width: 100%;
-            height: 150px;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            color: #777;
-            text-align: center;
-            font-size: 0.8rem;
-            border: 1px dashed #bbb;
+        .version-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 300ms ease;
         }
 
-        @media (max-width: 600px) {
-            .card-body {
-                grid-template-columns: 1fr;
-            }
+        .version-card.expanded .version-content {
+            max-height: 2000px;
+        }
+
+        .version-details {
+            padding: 20px;
+            border: 1px solid #d8d5cf;
+            border-top: none;
+            background-color: #ffffff;
+        }
+
+        .detail-section {
+            margin-bottom: 24px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6e6e6e;
+            margin-bottom: 8px;
+        }
+
+        .detail-text {
+            font-size: 14px;
+            color: #1c1c1c;
+            line-height: 1.7;
+        }
+
+        .detail-text ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .detail-text li {
+            margin-bottom: 6px;
+        }
+
+        /* Título principal */
+        h1 {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #6e6e6e;
+            margin-bottom: 60px;
         }
     </style>
 </head>
 <body>
+    <h1>Sistemas Operativos Móviles</h1>
+    <p class="subtitle">Evolución técnica y arquitectónica (2008-2030)</p>
 
-<header>
-    <h1>Cronología de Sistemas Operativos</h1>
-    <p>Un análisis técnico de la evolución de Android e iOS</p>
-</header>
-
-<div class="tabs">
-    <button class="tab-btn active" onclick="showTimeline('android')">Android (1-15)</button>
-    <button class="tab-btn" onclick="showTimeline('ios')">iOS (15-24)</button>
-</div>
-
-<div id="android" class="timeline active">
+    <div class="tabs">
+        <button class="tab active" data-tab="android">ANDROID</button>
+        <button class="tab" data-tab="ios">IOS</button>
     </div>
 
-<div id="ios" class="timeline">
-    </div>
-
-<script>
-    const androidData = [
-        { v: "Android 1.0", date: "2008", desc: "La versión comercial inicial. Introdujo la integración con servicios de Google, la barra de notificaciones desplegable y el concepto de widgets en la pantalla de inicio." },
-        { v: "Android 2.0 Eclair", date: "2009", desc: "Añadió soporte para múltiples cuentas de usuario, navegación de Google Maps y soporte para HTML5 en el navegador." },
-        { v: "Android 4.0 Ice Cream Sandwich", date: "2011", desc: "Unificó las versiones de tablet y smartphone. Introdujo el diseño Holo, capturas de pantalla nativas y desbloqueo facial." },
-        { v: "Android 5.0 Lollipop", date: "2014", desc: "Introducción de Material Design, un lenguaje visual basado en sombras y profundidad. Soporte para procesadores de 64 bits." },
-        { v: "Android 10", date: "2019", desc: "Eliminación de los nombres de postres. Introdujo el modo oscuro en todo el sistema y un nuevo sistema de navegación por gestos." },
-        { v: "Android 12", date: "2021", desc: "Lanzamiento de Material You, permitiendo una personalización profunda basada en los colores del fondo de pantalla." },
-        { v: "Android 15", date: "2024", desc: "Enfoque en la eficiencia energética, conectividad satelital nativa y mejoras significativas en la privacidad del usuario y seguridad del kernel." }
-    ];
-
-    const iosData = [
-        { v: "iOS 15", date: "2021", desc: "Introdujo los modos de Concentración (Focus), mejoras en FaceTime con audio espacial y SharePlay, además de Texto en Vivo para fotos." },
-        { v: "iOS 16", date: "2022", desc: "Rediseño total de la pantalla de bloqueo con widgets, edición de mensajes enviados en iMessage y la Fototeca Compartida de iCloud." },
-        { v: "iOS 17", date: "2023", desc: "Introducción del modo En Reposo (StandBy), carteles de contacto personalizados, NameDrop para compartir datos y mejoras en la corrección automática." },
-        { v: "iOS 18", date: "2024", desc: "Integración profunda de inteligencia artificial generativa, personalización libre de iconos en la pantalla de inicio y rediseño del Centro de Control." },
-        { v: "iOS 24", date: "2030 (Concepto)", desc: "Versión teórica orientada a la computación espacial avanzada y la integración neuronal total con dispositivos periféricos de realidad aumentada." }
-    ];
-
-    function createCards(data, containerId) {
-        const container = document.getElementById(containerId);
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-header">
-                    <h2 class="card-title">${item.v}</h2>
-                    <span class="card-date">${item.date}</span>
-                </div>
-                <div class="card-body">
-                    <div class="card-text">${item.desc}</div>
-                    <div class="image-placeholder">
-                        Imagen de<br>${item.v}
+    <!-- Contenido Android -->
+    <div id="android" class="content active">
+        <div class="timeline">
+            <!-- Android 1.0 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 1.0 <span class="version-year">(2008)</span></span>
+                        <span class="expand-icon">▼</span>
                     </div>
                 </div>
-            `;
-            container.appendChild(card);
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Kernel Linux 2.6.25. Arquitectura basada en máquina virtual Dalvik. Modelo de sandbox por aplicación con UID único.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Interfaz inicial con sistema de notificaciones desplegable. Pantalla de inicio personalizable con widgets básicos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Modelo de permisos basado en declaración en AndroidManifest.xml. Sandboxing por aplicación con aislamiento de procesos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">APIs iniciales para telefonía, GPS, cámara y WebKit. Framework de actividades y servicios básico.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Primer dispositivo: HTC Dream (T-Mobile G1). Estableció el modelo open-source frente a iPhone OS 2. Introdujo Android Market como alternativa abierta.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Democratización del desarrollo móvil mediante código abierto. Establecimiento del ecosistema OHA (Open Handset Alliance).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Multitarea básica. Sistema de notificaciones centralizado. Integración nativa con servicios de Google.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Qualcomm MSM7201A (528 MHz ARM11). Pantallas táctiles resistivas. Teclado físico QWERTY deslizable.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 1.5 Cupcake -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 1.5 Cupcake <span class="version-year">(2009)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Kernel Linux 2.6.27. Mejoras en el runtime Dalvik.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Primera versión con teclado virtual integrado. Framework de widgets para pantalla de inicio expandido.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Refinamiento del modelo de sandbox. Mejoras en validación de aplicaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Mejoras en API para desarrolladores multimedia. Soporte para grabación de video MPEG-4.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Inicio del esquema de nombres por postres. Expansión del catálogo de dispositivos Android.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de la identidad visual de Android. Mejora en la experiencia de usuario básica.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Teclado virtual con autocorrección. Grabación de video nativa. Widgets de pantalla de inicio.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Mejora en soporte para pantallas táctiles capacitivas. Optimización para procesadores ARM más rápidos.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 2.0-2.1 Eclair -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 2.0-2.1 Eclair <span class="version-year">(2009)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Optimización del stack Bluetooth 2.1. Mejoras en gestión de memoria.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Live Wallpapers usando OpenGL. Interfaz refinada con mejor uso de espacio.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Soporte multi-cuenta Exchange con políticas de seguridad empresarial.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Google Maps Navigation con guía por voz. Mejoras en API de cámara (flash, zoom digital).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Google Maps Navigation como competencia directa a GPS dedicados. Expansión del ecosistema empresarial.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Disrupción del mercado de dispositivos GPS dedicados. Entrada en mercado empresarial.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Live Wallpapers con renderizado OpenGL. Navegación GPS integrada con voz. Soporte empresarial Exchange.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Mejor soporte para sensores múltiples. Optimización para pantallas de mayor resolución.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 2.2 Froyo -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 2.2 Froyo <span class="version-year">(2010)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Introducción del compilador JIT para Dalvik. Gran salto de rendimiento en ejecución de aplicaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Interfaz optimizada. Mejoras en transiciones visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en validación de aplicaciones. Soporte para políticas de seguridad mejoradas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Motor V8 JavaScript en navegador. APIs mejoradas para almacenamiento externo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Mejora significativa en rendimiento percibido. Competencia directa con iOS en velocidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Android como plataforma de alto rendimiento. Reducción de la brecha de rendimiento con iOS.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Compilador JIT para Dalvik (2-5x mejora de rendimiento). Soporte oficial hotspot WiFi. Instalación de apps en almacenamiento externo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Optimización para procesadores más rápidos. Mejor gestión de memoria RAM.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 2.3 Gingerbread -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 2.3 Gingerbread <span class="version-year">(2010)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Kernel 2.6.35. Revisión del garbage collector Dalvik para mejor rendimiento.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Interfaz optimizada para pantallas más grandes. Tema oscuro opcional.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Soporte NFC inicial con APIs de seguridad. Mejoras en encriptación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">APIs NFC. Mejoras en APIs de sensores (giroscópicos). Soporte para múltiples cámaras.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Preparación para pagos móviles con NFC. Expansión hacia dispositivos de gama alta.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de base para pagos móviles. Mejora en experiencia de juegos móviles.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Soporte NFC. Garbage collector concurrente mejorado. Sensores giroscópicos integrados.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Sensores giroscópicos. Chips NFC. Pantallas de mayor resolución y tamaño.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 3.0 Honeycomb -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 3.0 Honeycomb <span class="version-year">(2011)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Soporte multi-core real. Optimización para arquitecturas de múltiples núcleos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">UI "Holographic" diseñada para tablets. Barra de sistema persistente inferior. Diseño fragmentado para pantallas grandes.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en aislamiento de procesos. Políticas de seguridad específicas para tablets.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Fragment API para diseño adaptable. APIs mejoradas para tablets. Aceleración por hardware mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Primera versión optimizada exclusivamente para tablets. Competencia directa con iPad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Android como plataforma tablet viable. Fragmentación inicial entre smartphone y tablet.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Fragment API. Soporte multi-core nativo. Aceleración GPU mejorada. Barra de sistema rediseñada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Procesadores multi-core (NVIDIA Tegra 2, Qualcomm Snapdragon). Pantallas de tablet (7", 10").</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 4.0 Ice Cream Sandwich -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 4.0 Ice Cream Sandwich <span class="version-year">(2011)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Unificación de código base para tablet y smartphone. Kernel optimizado.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Introducción de Roboto como tipografía del sistema. Botones virtuales en pantalla. Interfaz unificada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Face Unlock basado en reconocimiento facial 2D. Mejoras en encriptación de datos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Mejoras profundas en API gráfica. Android Beam (NFC). APIs de reconocimiento facial.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Unificación tablet + smartphone. Reducción de fragmentación. Competencia mejorada con iOS.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de identidad visual consistente. Reducción de costos de desarrollo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Roboto como tipografía del sistema. Face Unlock. Botones virtuales. Android Beam.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Cámaras frontales para Face Unlock. Chips NFC. Pantallas de alta densidad.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 4.1-4.3 Jelly Bean -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 4.1-4.3 Jelly Bean <span class="version-year">(2012-2013)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Project Butter: vsync a 60fps. Triple buffering gráfico. Mejoras en scheduler del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Animaciones fluidas a 60fps. Notificaciones expandibles. Mejoras visuales generales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en accesibilidad. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Google Now como capa predictiva. APIs de notificaciones expandibles. Mejoras en accesibilidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Mejora significativa en fluidez percibida. Competencia directa con iOS en suavidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Eliminación de la percepción de Android como sistema "laggy". Establecimiento de estándar de fluidez.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Project Butter (60fps constante). Triple buffering. Google Now. Notificaciones expandibles.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">GPUs más potentes. Pantallas de alta densidad mejoradas. Sensores mejorados.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 4.4 KitKat -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 4.4 KitKat <span class="version-year">(2013)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Optimización para dispositivos con 512MB RAM (Project Svelte). Transición hacia ART como runtime experimental.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Modo inmersivo (pantalla completa). Interfaz refinada. Iconos rediseñados.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en encriptación. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">ART runtime experimental. APIs de modo inmersivo. Mejoras en WebView.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Expansión hacia dispositivos de gama baja. Reducción de requisitos de hardware.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Democratización de Android en mercados emergentes. Reducción de barrera de entrada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Project Svelte (optimización de memoria). ART runtime experimental. Modo inmersivo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Dispositivos con 512MB RAM. Procesadores de gama baja optimizados.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 5.0 Lollipop -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 5.0 Lollipop <span class="version-year">(2014)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">ART reemplaza oficialmente a Dalvik. Soporte para arquitectura 64-bit (ARMv8). SELinux en modo enforcing.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Material Design (guías formales de diseño). Elevación y sombras. Animaciones fluidas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">SELinux en modo enforcing. Encriptación completa del dispositivo por defecto. Smart Lock.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">ART runtime completo. APIs 64-bit. JobScheduler API. Mejoras en notificaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Rediseño completo de identidad visual. Competencia mejorada con iOS en diseño.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Material Design como estándar. Mejora significativa en seguridad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">ART runtime (compilación AOT). Material Design. Arquitectura 64-bit. SELinux enforcing.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Procesadores 64-bit ARMv8. Dispositivos con mayor capacidad de almacenamiento.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 6.0 Marshmallow -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 6.0 Marshmallow <span class="version-year">(2015)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Doze Mode (optimización energética basada en sensores). Mejoras en gestión de memoria.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Refinamiento de Material Design. Mejoras en transiciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Permisos granulares por app (runtime). Fingerprint API oficial. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Fingerprint API. Permisos runtime. Doze Mode API. Mejoras en WebView.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en privacidad y seguridad. Mejora en duración de batería.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de modelo de permisos granular. Mejora en seguridad percibida.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Permisos granulares runtime. Doze Mode. Fingerprint API. Mejoras en gestión de energía.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Sensores de huella dactilar. Sensores de movimiento mejorados para Doze Mode.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 7.0 Nougat -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 7.0 Nougat <span class="version-year">(2016)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">File-based encryption. Mejoras en compilación JIT de ART.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Pantalla dividida nativa. Notificaciones agrupadas. Mejoras visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">File-based encryption. Direct Boot. Mejoras en verificación de aplicaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Vulkan API (bajo nivel gráfico). Multi-window API. Mejoras en notificaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en productividad. Competencia con iPad en multitarea.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Mejora en productividad móvil. Establecimiento de Vulkan como estándar gráfico.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Vulkan API. File-based encryption. Pantalla dividida nativa. Direct Boot.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">GPUs compatibles con Vulkan. Dispositivos con mayor capacidad de almacenamiento.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 8.0 Oreo -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 8.0 Oreo <span class="version-year">(2017)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Project Treble (modularización del sistema). Separación de vendor y framework.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Picture-in-picture. Notificaciones con canales. Mejoras visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Límites estrictos a procesos en segundo plano. Google Play Protect mejorado.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Notification channels. Autofill framework. Picture-in-picture API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en actualizaciones más rápidas. Mejora en seguridad y privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Reducción de fragmentación mediante Project Treble. Mejora en tiempo de actualizaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Project Treble. Picture-in-picture. Límites de background. Notification channels.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Arquitectura modularizada. Mejor soporte para diferentes vendors.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 9 Pie -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 9 Pie <span class="version-year">(2018)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Adaptive Battery usando machine learning local. Mejoras en scheduler del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Navegación gestual híbrida. Interfaz refinada. Mejoras en accesibilidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en privacidad. Restricciones de aplicaciones en segundo plano.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Slices API. Neural Networks API. Mejoras en notificaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en inteligencia artificial. Mejora en duración de batería.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de IA local como estándar. Mejora en eficiencia energética.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Adaptive Battery (ML). Slices API. Navegación gestual. Neural Networks API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Aceleradores de IA (NPU). Sensores mejorados para ML.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 10 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 10 <span class="version-year">(2019)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Mejoras en gestión de memoria. Optimización del kernel.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Modo oscuro nativo. Navegación gestual mejorada. Interfaz refinada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Scoped Storage. Gestión avanzada de permisos de ubicación. Mejoras en privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Scoped Storage API. Dark theme API. Mejoras en permisos de ubicación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en privacidad. Modo oscuro como estándar.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de modelo de almacenamiento más seguro. Mejora en privacidad percibida.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Scoped Storage. Modo oscuro nativo. Permisos de ubicación granulares.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Pantallas OLED optimizadas para modo oscuro. Sensores mejorados.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 11 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 11 <span class="version-year">(2020)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Mejoras en gestión de procesos. Optimización del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Sección de conversaciones en notificaciones. Burbujas de conversación. Interfaz refinada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Permisos de uso único. Mejoras en privacidad. Restricciones de aplicaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Conversation notifications API. One-time permissions. Screen recorder API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en comunicación. Mejora en gestión de notificaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Mejora en experiencia de comunicación. Establecimiento de modelo de permisos más granular.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Conversation notifications. One-time permissions. Screen recorder nativo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Pantallas de mayor resolución. Procesadores más potentes.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 12 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 12 <span class="version-year">(2021)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Material You con extracción dinámica de color. Mejoras en rendimiento.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Material You. Rediseño completo de interfaz. Extracción dinámica de color del wallpaper.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Privacy Dashboard. Indicadores de uso de micrófono y cámara. Mejoras en privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Material You APIs. Privacy Dashboard API. Mic/camera indicators API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Rediseño visual completo. Enfoque en privacidad y personalización.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Material You como nueva identidad visual. Mejora en transparencia de privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Material You. Extracción dinámica de color. Privacy Dashboard. Indicadores de privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Pantallas de alta calidad para Material You. Procesadores optimizados para renderizado.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 13 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 13 <span class="version-year">(2022)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Mejoras en gestión de recursos. Optimización del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Refinamiento de Material You. Mejoras en iconos y temas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Permisos para notificaciones. Mejoras en privacidad. Restricciones mejoradas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Notification permission API. Bluetooth LE Audio. Per-app language API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en privacidad y accesibilidad. Mejora en comunicación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Mejora en control de notificaciones. Establecimiento de Bluetooth LE Audio.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Notification permissions. Bluetooth LE Audio. Per-app language. Mejoras en Material You.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Bluetooth LE Audio compatible. Procesadores más eficientes.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 14 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 14 <span class="version-year">(2023)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Mejoras en salud de batería. Optimización del scheduler del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Compatibilidad mejorada para tablets y plegables. Interfaz adaptable.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Restricciones más estrictas en servicios en segundo plano. Mejoras en privacidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Battery health API. Foldable/tablet APIs mejoradas. Background restrictions API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en dispositivos plegables. Mejora en duración de batería.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Android como plataforma para plegables. Mejora en eficiencia energética.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Battery health monitoring. Foldable/tablet optimization. Background restrictions mejoradas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Dispositivos plegables. Tablets de mayor tamaño. Baterías mejoradas.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android 15 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>Android 15 <span class="version-year">(2024)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Optimización del scheduler del sistema. Mayor aislamiento de procesos sensibles.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Refinamiento continuo de Material You. Mejoras en accesibilidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mayor aislamiento de procesos sensibles. Mejoras en verificación de aplicaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Mejor integración con aceleradores de IA en SoCs modernos. APIs de privacidad mejoradas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en inteligencia artificial. Mejora en seguridad y rendimiento.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de IA como componente central. Mejora en seguridad de procesos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">AI accelerator integration. Process isolation mejorado. Scheduler optimizations.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">SoCs con aceleradores de IA (NPU). Procesadores más potentes y eficientes.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido iOS -->
+    <div id="ios" class="content">
+        <div class="timeline">
+            <!-- iOS 15 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>iOS 15 <span class="version-year">(2021)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Base Darwin + XNU kernel. Mejoras en gestión de memoria y procesos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Rediseño completo de notificaciones. Interfaz refinada. Mejoras visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en privacidad Mail. App Privacy Report. Mejoras en encriptación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Focus Mode API. SharePlay API. Mejoras en WebKit. Mail Privacy Protection API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en privacidad y comunicación. Competencia con Android en características sociales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de privacidad como diferenciador. Mejora en experiencia de comunicación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Focus Mode con filtros contextuales. SharePlay con sincronización multimedia. Rediseño de notificaciones.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">iPhone 6s y posteriores. iPad (5ta generación) y posteriores. iPad mini 4 y posteriores.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 16 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>iOS 16 <span class="version-year">(2022)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Mejoras en kernel XNU. Optimización del sistema.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Lock Screen completamente personalizable con widgets. Interfaz refinada. Mejoras visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Passkeys (FIDO estándar). Mejoras en privacidad. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">Live Activities API. Lock Screen widgets API. Passkeys API (WebAuthn). Message editing API.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en personalización. Competencia con Android en flexibilidad.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de Passkeys como estándar de autenticación. Mejora en personalización.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">Lock Screen personalizable con widgets. Live Activities API. Passkeys (FIDO). Edición de mensajes.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">iPhone 8 y posteriores. iPad (5ta generación) y posteriores. iPad Pro (todas las generaciones).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 17 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>iOS 17 <span class="version-year">(2023)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Optimización de A17 Bionic. Mejoras en aislamiento de procesos.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">StandBy Mode. Interfaz refinada. Mejoras visuales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en aislamiento de procesos. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">StandBy Mode API. NameDrop API (NFC + proximidad). Mejoras en comunicación.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en experiencia de usuario. Mejora en comunicación cercana.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de StandBy Mode. Mejora en comunicación NFC.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">StandBy Mode. NameDrop con NFC + proximidad. Optimización A17 Bionic. Aislamiento de procesos mejorado.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">iPhone XS y posteriores. iPad (6ta generación) y posteriores. Optimización para A17 Bionic.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 18 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>iOS 18 <span class="version-year">(2024)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Integración avanzada de IA generativa local. Optimización energética en chips Apple Silicon.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Rediseño parcial del SpringBoard. Mayor personalización de iconos. Interfaz refinada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Mejoras en privacidad de IA. Verificación de aplicaciones mejorada.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">AI generativa APIs. Customization APIs mejoradas. Mejoras en SpringBoard APIs.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Enfoque en inteligencia artificial. Competencia con Android en personalización.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Establecimiento de IA local como diferenciador. Mejora en personalización.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">IA generativa local integrada. Rediseño de SpringBoard. Personalización avanzada. Optimización energética.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Chips Apple Silicon con Neural Engine mejorado. iPhone 12 y posteriores.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 24 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-title">
+                        <span>iOS 24 <span class="version-year">(2030 - Ficticio)</span></span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="version-content">
+                    <div class="version-details">
+                        <div class="detail-section">
+                            <div class="detail-label">Arquitectura Base</div>
+                            <div class="detail-text">Arquitectura modular completamente reescrita. IA integrada a nivel kernel. Sistema de contexto predictivo continuo.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Diseño</div>
+                            <div class="detail-text">Interfaz adaptativa en tiempo real. Diseño contextual basado en uso y entorno.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios de Seguridad</div>
+                            <div class="detail-text">Seguridad cuántica-resistente. Verificación biométrica avanzada multi-factor.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Cambios en APIs</div>
+                            <div class="detail-text">APIs de contexto predictivo. APIs de IA a nivel sistema. APIs modulares avanzadas.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Contexto de Mercado</div>
+                            <div class="detail-text">Era post-smartphone. Integración completa con realidad aumentada y virtual.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Impacto Industrial</div>
+                            <div class="detail-text">Revolución en interacción humano-computadora. Establecimiento de paradigma de computación contextual.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Innovaciones Técnicas Clave</div>
+                            <div class="detail-text">IA integrada a nivel kernel. Contexto predictivo continuo. Interfaz adaptativa en tiempo real. Arquitectura modular.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Hardware Soportado</div>
+                            <div class="detail-text">Chips de computación cuántica híbrida. Sensores avanzados de contexto ambiental. Dispositivos AR/VR integrados.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+                
+                // Remover clase active de todas las pestañas y contenidos
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Agregar clase active a la pestaña y contenido seleccionados
+                tab.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+                
+                // Reiniciar observadores para el nuevo contenido
+                initIntersectionObserver();
+            });
         });
-    }
 
-    function showTimeline(id) {
-        // Ocultar todas
-        document.querySelectorAll('.timeline').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        // Mostrar seleccionada
-        document.getElementById(id).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
+        // IntersectionObserver para animaciones
+        function initIntersectionObserver() {
+            const versionCards = document.querySelectorAll('.content.active .version-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
 
-    // Inicializar datos
-    createCards(androidData, 'android');
-    createCards(iosData, 'ios');
-</script>
+            versionCards.forEach(card => {
+                // Resetear estado inicial
+                card.classList.remove('visible');
+                observer.observe(card);
+            });
+        }
 
+        // Expandir/colapsar tarjetas
+        document.addEventListener('click', (e) => {
+            const header = e.target.closest('.version-header');
+            if (header) {
+                const card = header.closest('.version-card');
+                card.classList.toggle('expanded');
+            }
+        });
+
+        // Inicializar observador al cargar la página
+        initIntersectionObserver();
+    </script>
 </body>
 </html>
